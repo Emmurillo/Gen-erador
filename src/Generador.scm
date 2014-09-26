@@ -1,14 +1,18 @@
-; Recibe: in = Un puerto de lectura.
-; Retorna: Una lista con todos los objetos leídos del puerto hasta que se lea un caracter EOF.
-(define read-objects
+; Obtiene lista de numeros del archivo
+(define obtener-lista
   (lambda (in)
-    (let ([object (read in)])
+    (let ([buffer (read in)])
       (cond 
-        ((eof-object? object) '())
-        (else (cons object (read-objects in)))))))
+        ((eof-object? buffer) '())
+        (else (cons buffer (obtener-lista in)))))))
 
-; Recibe: path = Ruta del archivo.
-; Retorna: Una lista con cada objeto del archivo.
-(define read-file
-  (lambda (path)
-    (read-objects (open-input-file path))))
+; Objetos del archivo
+(define leer-archivo
+  (lambda (ruta)
+    (obtener-lista (open-input-file ruta))))
+
+;Determina el valor absoluto de un número
+(define absoluto
+  (lambda (num)
+    (cond ((< num 0) (* -1 num))
+          (num))))
