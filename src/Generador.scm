@@ -1,5 +1,4 @@
 (define operadores '(+ - / *))
-;prue
 ;ARCHIVOS
 
 ; Obtiene lista de numeros del archivo
