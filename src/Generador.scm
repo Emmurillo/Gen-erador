@@ -96,4 +96,9 @@
           (else
            (- 10 (random 20))))))
              
+;Crea la población de tamaño cantidad
+(define crear-poblacion
+  (lambda (cantidad)
+    (cond ((= cantidad 0) '())
+          (else (cons (crea-individuo) (crear-poblacion (- cantidad 1) ) )))))
 
