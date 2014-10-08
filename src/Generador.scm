@@ -35,7 +35,28 @@
     (cond ((= cantidad 0) '())
           (else (cons (crea-individuo) (crear-poblacion (- cantidad 1) ) )))))
 
-(define eval-individuo
+;Dados x y y pasa por parámetros los valores y evalua en el individuo
+(define mostrar-individuo
   (lambda (individuo x y)
     (display individuo) (newline)
+    (display ((eval (cons 'lambda(cons '(x y) (list individuo)))) x y))
+    (display (newline))))
+
+;Dados x y y pasa por parámetros los valores y evalua en el individuo
+(define eval-individuo
+  (lambda (individuo x y)
     ((eval (cons 'lambda(cons '(x y) (list individuo)))) x y)))
+
+;Obtiene los z del individuo
+(define z-individuo
+  (lambda (indiv)
+    (display indiv)(newline)
+    (z-individuo-aux indiv (obtener-x-y))))
+
+(define z-individuo-aux
+  (lambda (indiv lista)
+    (cond ((null? lista) '())
+          (else
+           (cons (eval-individuo indiv (caar lista) (cadar lista)) (z-individuo-aux indiv (cdr lista)))))))
+
+
