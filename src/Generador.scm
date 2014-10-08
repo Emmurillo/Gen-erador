@@ -59,4 +59,26 @@
           (else
            (cons (eval-individuo indiv (caar lista) (cadar lista)) (z-individuo-aux indiv (cdr lista)))))))
 
+;CRUCE
+;Función que cruza con la raiz de indiv1, hijo derecho de indiv1 e hijo izquierdo de indiv2
+(define cruce
+  (lambda (ind1 ind2)
+    (list (raiz-random ind1 ind2)
+          (cadr ind1)
+          (caddr ind2))))
+
+;A partir de dos individuos retorna una de las 2 raíces
+(define raiz-random
+  (lambda (ind1 ind2)
+    (cond ((< (random) 0.5) (car ind1))
+          (else
+           (car ind2)))))
+           
+;Muestra el  efecto del cruce
+(define muestra-cruce
+  (lambda (ind1 ind2)
+    (display ind1)(newline)
+    (display ind2)(newline)
+    (display (cruce ind1 ind2))))
+
 
