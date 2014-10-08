@@ -1,6 +1,7 @@
 (load "Archivos.scm")
 (load "Operadores.scm")
 (load "Listas.scm")
+(load "Matematica.scm")
 
 ;OPERACIONES DE ARBOLES
 
@@ -80,5 +81,23 @@
     (display ind1)(newline)
     (display ind2)(newline)
     (display (cruce ind1 ind2))))
+
+;FITNESS
+;Determina la diferencia entre dos listas
+(define dif-z
+  (lambda (Z-Ind Z-Id)
+    (cond ((null? Z-Ind) '())
+          (else (cons (absoluto(- (car Z-Ind) (car Z-Id))) (dif-z (cdr Z-Ind) (cdr Z-Id)))))))
+
+;Obtiene el fitness de un individuo
+(define suma-diferencias
+  (lambda (lista)
+    (apply + lista)))
+
+(define fitness
+  (lambda (individuo)
+    (suma-diferencias (dif-z (z-individuo individuo) (obtener-z)))))
+
+
 
 
