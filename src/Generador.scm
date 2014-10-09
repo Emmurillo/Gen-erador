@@ -30,13 +30,13 @@
     (cond ((< (random) 0.15) 'x)
           ((< (random) 0.30) 'y)
           (else
-           (- 10 (random 20))))))
+           (- 20 (random 10))))))
 
 ;Crea la población de tamaño cantidad
-(define crear-poblacion
+(define crea-poblacion
   (lambda (cantidad)
     (cond ((= cantidad 0) '())
-          (else (cons (crea-individuo) (crear-poblacion (- cantidad 1) ) )))))
+          (else (cons (crea-individuo) (crea-poblacion (- cantidad 1) ) )))))
 
 ;Dados x y y pasa por parámetros los valores y evalua en el individuo
 (define mostrar-individuo
@@ -99,6 +99,13 @@
 (define fitness
   (lambda (individuo)
     (suma-diferencias (dif-z (z-individuo individuo) (obtener-z)))))
+
+;Fitness de la población
+(define fitness-pob
+  (lambda (pob)
+    (cond ((null? pob) '())
+          (else
+           (cons (fitness (car pob)) (fitness-pob (cdr pob)))))))
 
 
 
