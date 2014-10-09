@@ -30,7 +30,7 @@
     (cond ((< (random) 0.15) 'x)
           ((< (random) 0.30) 'y)
           (else
-           (- 20 (random 10))))))
+           (numero-random)))))
 
 ;Crea la población de tamaño cantidad
 (define crea-poblacion
