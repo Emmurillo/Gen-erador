@@ -4,8 +4,9 @@
   (lambda (in)
     (let ([buffer (read in)])
       (cond 
-        ((eof-object? buffer) '())
-        (else (cons buffer (obtener-lista in)))))))
+        ((eof-object? buffer) (close-input-port in) '())
+        (else (cons buffer (obtener-lista in))
+              )))))
 
 ; Objetos del archivo
 (define leer-archivo

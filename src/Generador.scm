@@ -1,9 +1,8 @@
 (load "Archivos.scm")
 (load "Operadores.scm")
 (load "Listas.scm")
-(load "Matematica.scm")
 
-;
+(define prob-hoja 0.85)
 
 ;OPERACIONES DE ARBOLES
 
@@ -17,7 +16,7 @@
 ; Genera un individuo aleatoriamente
 (define crea-individuo-aux
   (lambda ()
-    (cond ((< (random) 0.6) (crea-hoja))
+    (cond ((< (random) prob-hoja) (crea-hoja))
           (else
            (list (operador-random)
                  (crea-individuo-aux)
@@ -53,7 +52,6 @@
 ;Obtiene los z del individuo
 (define z-individuo
   (lambda (indiv)
-    (display indiv)(newline)
     (z-individuo-aux indiv (obtener-x-y))))
 
 (define z-individuo-aux
@@ -66,9 +64,33 @@
 ;Función que cruza con la raiz de indiv1, hijo derecho de indiv1 e hijo izquierdo de indiv2
 (define cruce
   (lambda (ind1 ind2)
-    (list (raiz-random ind1 ind2)
-          (cadr ind1)
-          (caddr ind2))))
+    (cond ((< (random) 0.7) (mutar 
+                              (list (raiz-random ind1 ind2)
+                                    (cadr ind1)
+                                    (caddr ind2))))
+          (else
+           (list (raiz-random ind1 ind2)
+                                    (cadr ind1)
+                                    (caddr ind2))))))
+
+
+;Función de mutación
+(define mutar
+  (lambda (ind)
+    (cond ((number? ind) (arbol-pequeño))
+          ((equal? ind 'x) (arbol-pequeño))
+          ((equal? ind 'y) (arbol-pequeño))
+          (else 
+           (list (car ind)
+                 (mutar (cadr ind))
+                 (caddr ind))))))
+
+(define arbol-pequeño
+  (lambda ()
+    (list (operador-random)
+          (numero-random)
+          (numero-random))))
+      
 
 ;A partir de dos individuos retorna una de las 2 raíces
 (define raiz-random
@@ -97,16 +119,20 @@
     (apply + lista)))
 
 (define fitness
-  (lambda (individuo)
-    (suma-diferencias (dif-z (z-individuo individuo) (obtener-z)))))
+  (lambda (individuo lista-z)
+    (suma-diferencias (dif-z (z-individuo individuo) lista-z))))
 
 ;Fitness de la población
 (define fitness-pob
-  (lambda (pob)
+  (lambda (pob lista-z)
     (cond ((null? pob) '())
-          (else
-           (cons (fitness (car pob)) (fitness-pob (cdr pob)))))))
+          ((= (fitness (car pob) lista-z) 0) (newline) (ganador (car pob)) (list (fitness (car pob) lista-z)))
+          (else (cons (fitness (car pob) lista-z) (fitness-pob (cdr pob) lista-z))))))
 
-
-
+;Mostrar ganador
+(define ganador
+  (lambda (funcion)
+    (display "Funcion ganadora :")
+    (display funcion)
+    (newline)))
 
