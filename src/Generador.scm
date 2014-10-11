@@ -3,6 +3,8 @@
 (load "Listas.scm")
 
 (define prob-hoja 0.85)
+;Individuos por población
+(define cant-ind 40)
 
 ;OPERACIONES DE ARBOLES
 
@@ -102,8 +104,6 @@
 ;Muestra el  efecto del cruce
 (define muestra-cruce
   (lambda (ind1 ind2)
-    (display ind1)(newline)
-    (display ind2)(newline)
     (display (cruce ind1 ind2))))
 
 ;FITNESS
@@ -126,8 +126,19 @@
 (define fitness-pob
   (lambda (pob lista-z)
     (cond ((null? pob) '())
-          ((= (fitness-ind (car pob) lista-z) 0) (newline) (ganador (car pob)) (error "lambda encontrado") (list (fitness-ind (car pob) lista-z)))
+          ((= (fitness-ind (car pob) lista-z) 0) (ganador (car pob))(error "lambda encontrado") (list (fitness-ind (car pob) lista-z)))
           (else (cons (fitness-ind (car pob) lista-z) (fitness-pob (cdr pob) lista-z))))))
+
+
+;Mostrar ganador
+(define ganador
+  (lambda (funcion)
+    (newline)
+    (newline)
+    (display "(lambda (x y) ")
+    (display funcion)
+    (display ")")
+    (newline)))
 
 (define TP
   (lambda (lista)
@@ -153,14 +164,6 @@
   (lambda (lista)
     (TK-lista (TF (TP lista) lista) (TF-lista (TP lista) lista))))
 
-;Mostrar ganador
-(define ganador
-  (lambda (funcion)
-    (display "(lambda (x y) ")
-    (display funcion)
-    (display ")")
-    (newline)))
-
 (define solucionar
   (lambda (lista-z)
     (fitness (crea-poblacion 40) lista-z)
@@ -171,3 +174,42 @@
     (cond ((null? lista) '())
           (else
            (cons (exact->inexact (car lista)) (muestra-fitness (cdr lista)))))))
+
+(define mas-aptos-aux
+  (lambda (lista-fitness poblacion)
+    (cond ((null? lista-fitness) '())
+          (else
+           (cond ((>= (car lista-fitness) 0.03) (cons (car poblacion) (mas-aptos-aux (cdr lista-fitness) (cdr poblacion))))
+                 (else (mas-aptos-aux (cdr lista-fitness) (cdr poblacion))))))))
+
+(define mas-aptos
+  (lambda (poblacion lista-z)
+    (mas-aptos-aux (fitness poblacion lista-z) poblacion)))
+
+(define ind-random 
+  (lambda (poblacion)
+    (list-ref poblacion (random (length poblacion)))))
+
+(define cruce-random
+  (lambda (poblacion)
+    (cruce (ind-random poblacion) (ind-random poblacion))))
+
+
+
+(define evolucion
+  (lambda (poblacion lista-z)
+    (cond ((< (length (mas-aptos poblacion lista-z)) 6) (evolucion (crea-poblacion 40) lista-z))
+          (else
+           (append (mas-aptos poblacion lista-z) (evolucion-aux (length (mas-aptos poblacion lista-z)) (mas-aptos poblacion lista-z)))))))
+
+
+(define evolucion-aux
+  (lambda (cont aptos)
+    (cond ((>= cont cant-ind) '())
+          (else
+           (cons (cruce-random aptos) (evolucion-aux (+ 1 cont) aptos))))))
+
+(define main
+  (lambda ()
+    (evolucion (crea-poblacion cant-ind) (obtener-z))))
+
