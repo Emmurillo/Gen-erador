@@ -118,7 +118,7 @@
   (lambda (lista)
     (apply + lista)))
 
-(define fitness
+(define fitness-ind
   (lambda (individuo lista-z)
     (suma-diferencias (dif-z (z-individuo individuo) lista-z))))
 
@@ -126,8 +126,32 @@
 (define fitness-pob
   (lambda (pob lista-z)
     (cond ((null? pob) '())
-          ((= (fitness (car pob) lista-z) 0) (newline) (ganador (car pob)) (list (fitness (car pob) lista-z)))
-          (else (cons (fitness (car pob) lista-z) (fitness-pob (cdr pob) lista-z))))))
+          ((= (fitness-ind (car pob) lista-z) 0) (newline) (ganador (car pob)) (list (fitness-ind (car pob) lista-z)))
+          (else (cons (fitness-ind (car pob) lista-z) (fitness-pob (cdr pob) lista-z))))))
+
+(define TP
+  (lambda (lista)
+    (apply + lista)))
+
+(define TF-lista
+  (lambda (TP lista)
+    (map (lambda (x) (/ TP x)) lista)))
+
+(define TF
+  (lambda (TP lista)
+    (apply + (map (lambda (x) (/ TP x)) lista))))
+
+(define TK-lista
+  (lambda (TF TF-lista)
+    (map (lambda (x) (/ x TF)) TF-lista)))
+
+(define fitness
+  (lambda (pob lista-z)
+    (fitness-aux (fitness-pob pob lista-z))))
+
+(define fitness-aux
+  (lambda (lista)
+    (TK-lista (TF (TP lista) lista) (TF-lista (TP lista) lista))))
 
 ;Mostrar ganador
 (define ganador
@@ -135,4 +159,3 @@
     (display "Funcion ganadora :")
     (display funcion)
     (newline)))
-
