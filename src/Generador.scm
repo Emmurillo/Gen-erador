@@ -126,7 +126,7 @@
 (define fitness-pob
   (lambda (pob lista-z)
     (cond ((null? pob) '())
-          ((= (fitness-ind (car pob) lista-z) 0) (newline) (ganador (car pob)) (list (fitness-ind (car pob) lista-z)))
+          ((= (fitness-ind (car pob) lista-z) 0) (newline) (ganador (car pob)) (error "lambda encontrado") (list (fitness-ind (car pob) lista-z)))
           (else (cons (fitness-ind (car pob) lista-z) (fitness-pob (cdr pob) lista-z))))))
 
 (define TP
@@ -156,6 +156,18 @@
 ;Mostrar ganador
 (define ganador
   (lambda (funcion)
-    (display "Funcion ganadora :")
+    (display "(lambda (x y) ")
     (display funcion)
+    (display ")")
     (newline)))
+
+(define solucionar
+  (lambda (lista-z)
+    (fitness (crea-poblacion 40) lista-z)
+    (solucionar lista-z)))
+
+(define muestra-fitness
+  (lambda (lista)
+    (cond ((null? lista) '())
+          (else
+           (cons (exact->inexact (car lista)) (muestra-fitness (cdr lista)))))))
