@@ -10,7 +10,7 @@
 ;   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝
 ;                                                               
 
-;Función que creo el gráfico 3D
+;Función que crea el gráfico 3D
 (define grafica
   (lambda ()
     (parameterize ([plot-title  "Gráfico generado"]
