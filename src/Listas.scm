@@ -23,11 +23,13 @@
 
 
 ;Obtiene los X y Y empaquetados del archivo
+;Recibe la ruta del archivo que los contiene
 (define obtener-x-y
   (lambda (ruta)
     (pack (drop (leer-archivo ruta) 0 2))))
 
 ;Obtiene los X y Y empaquetados del archivo
+;Recibe la ruta del archivo que los contiene
 (define obtener-z
   (lambda (ruta)
     (drop (drop (leer-archivo ruta) -1 2) 1 1)))

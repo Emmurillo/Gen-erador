@@ -1,14 +1,43 @@
 (load "Archivos.scm")
 (load "Operadores.scm")
 (load "Listas.scm")
-(load "Graficos.scm")
 
+;   ██████╗ ███████╗███╗   ██╗███████╗██████╗  █████╗ ██████╗  ██████╗ ██████╗ 
+;  ██╔════╝ ██╔════╝████╗  ██║██╔════╝██╔══██╗██╔══██╗██╔══██╗██╔═══██╗██╔══██╗
+;  ██║  ███╗█████╗  ██╔██╗ ██║█████╗  ██████╔╝███████║██║  ██║██║   ██║██████╔╝
+;  ██║   ██║██╔══╝  ██║╚██╗██║██╔══╝  ██╔══██╗██╔══██║██║  ██║██║   ██║██╔══██╗
+;  ╚██████╔╝███████╗██║ ╚████║███████╗██║  ██║██║  ██║██████╔╝╚██████╔╝██║  ██║
+;   ╚═════╝ ╚══════╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝
+;                                                                             
+;  ██████╗ ███████╗
+;  ██╔══██╗██╔════╝
+;  ██║  ██║█████╗  
+;  ██║  ██║██╔══╝  
+;  ██████╔╝███████╗
+;  ╚═════╝ ╚══════╝
+;                  
+;  ███████╗██╗   ██╗███╗   ██╗ ██████╗██╗ ██████╗ ███╗   ██╗███████╗███████╗
+;  ██╔════╝██║   ██║████╗  ██║██╔════╝██║██╔═══██╗████╗  ██║██╔════╝██╔════╝
+;  █████╗  ██║   ██║██╔██╗ ██║██║     ██║██║   ██║██╔██╗ ██║█████╗  ███████╗
+;  ██╔══╝  ██║   ██║██║╚██╗██║██║     ██║██║   ██║██║╚██╗██║██╔══╝  ╚════██║
+;  ██║     ╚██████╔╝██║ ╚████║╚██████╗██║╚██████╔╝██║ ╚████║███████╗███████║
+;  ╚═╝      ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝╚══════╝
+;                                                                           
+
+;Probabilidad de que salga una hoja
 (define prob-hoja 0.85)
 ;Individuos por población
 (define cant-ind 40)
 
 ;OPERACIONES DE ARBOLES
 
+;   ██████╗██████╗ ███████╗ █████╗  ██████╗██╗ ██████╗ ███╗   ██╗
+;  ██╔════╝██╔══██╗██╔════╝██╔══██╗██╔════╝██║██╔═══██╗████╗  ██║
+;  ██║     ██████╔╝█████╗  ███████║██║     ██║██║   ██║██╔██╗ ██║
+;  ██║     ██╔══██╗██╔══╝  ██╔══██║██║     ██║██║   ██║██║╚██╗██║
+;  ╚██████╗██║  ██║███████╗██║  ██║╚██████╗██║╚██████╔╝██║ ╚████║
+;   ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝
+;                                                                
 ; Genera un individuo de mínimo 1 de altura
 (define crea-individuo
   (lambda ()
@@ -63,7 +92,15 @@
           (else
            (cons (eval-individuo indiv (caar lista) (cadar lista)) (z-individuo-aux indiv (cdr lista)))))))
 
-;CRUCE
+
+;   ██████╗██████╗ ██╗   ██╗ ██████╗███████╗    ██╗███╗   ███╗██╗   ██╗████████╗ █████╗  ██████╗██╗ ██████╗ ███╗   ██╗
+;  ██╔════╝██╔══██╗██║   ██║██╔════╝██╔════╝   ██╔╝████╗ ████║██║   ██║╚══██╔══╝██╔══██╗██╔════╝██║██╔═══██╗████╗  ██║
+;  ██║     ██████╔╝██║   ██║██║     █████╗    ██╔╝ ██╔████╔██║██║   ██║   ██║   ███████║██║     ██║██║   ██║██╔██╗ ██║
+;  ██║     ██╔══██╗██║   ██║██║     ██╔══╝   ██╔╝  ██║╚██╔╝██║██║   ██║   ██║   ██╔══██║██║     ██║██║   ██║██║╚██╗██║
+;  ╚██████╗██║  ██║╚██████╔╝╚██████╗███████╗██╔╝   ██║ ╚═╝ ██║╚██████╔╝   ██║   ██║  ██║╚██████╗██║╚██████╔╝██║ ╚████║
+;   ╚═════╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝╚══════╝╚═╝    ╚═╝     ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝ ╚═════╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝
+;                                                                                                                     
+
 ;Función que cruza con la raiz de indiv1, hijo derecho de indiv1 e hijo izquierdo de indiv2
 (define cruce
   (lambda (ind1 ind2)
@@ -107,7 +144,15 @@
   (lambda (ind1 ind2)
     (display (cruce ind1 ind2))))
 
-;FITNESS
+
+;  ███████╗██╗████████╗███╗   ██╗███████╗███████╗███████╗
+;  ██╔════╝██║╚══██╔══╝████╗  ██║██╔════╝██╔════╝██╔════╝
+;  █████╗  ██║   ██║   ██╔██╗ ██║█████╗  ███████╗███████╗
+;  ██╔══╝  ██║   ██║   ██║╚██╗██║██╔══╝  ╚════██║╚════██║
+;  ██║     ██║   ██║   ██║ ╚████║███████╗███████║███████║
+;  ╚═╝     ╚═╝   ╚═╝   ╚═╝  ╚═══╝╚══════╝╚══════╝╚══════╝
+;                                                        
+
 ;Determina la diferencia entre dos listas
 (define dif-z
   (lambda (Z-Ind Z-Id)
@@ -119,6 +164,7 @@
   (lambda (lista)
     (apply + lista)))
 
+;Obtiene el fitness por individuo
 (define fitness-ind
   (lambda (individuo lista-z ruta)
     (suma-diferencias (dif-z (z-individuo individuo ruta) lista-z))))
@@ -141,6 +187,8 @@
     (display ")")
     (newline)))
 
+
+;Calculo de la acumulada para el fitness
 (define TP
   (lambda (lista)
     (apply + lista)))
@@ -157,6 +205,7 @@
   (lambda (TF TF-lista)
     (map (lambda (x) (/ x TF)) TF-lista)))
 
+;Cálculo del fitness basado en la acumulada
 (define fitness
   (lambda (pob lista-z ruta)
     (fitness-aux (fitness-pob pob lista-z ruta))))
@@ -165,13 +214,22 @@
   (lambda (lista)
     (TK-lista (TF (TP lista) lista) (TF-lista (TP lista) lista))))
 
-
+;Muestra del fitness con decimales
 (define muestra-fitness
   (lambda (lista)
     (cond ((null? lista) '())
           (else
            (cons (exact->inexact (car lista)) (muestra-fitness (cdr lista)))))))
 
+
+;  ███╗   ███╗ █████╗ ███████╗     █████╗ ██████╗ ████████╗ ██████╗ ███████╗
+;  ████╗ ████║██╔══██╗██╔════╝    ██╔══██╗██╔══██╗╚══██╔══╝██╔═══██╗██╔════╝
+;  ██╔████╔██║███████║███████╗    ███████║██████╔╝   ██║   ██║   ██║███████╗
+;  ██║╚██╔╝██║██╔══██║╚════██║    ██╔══██║██╔═══╝    ██║   ██║   ██║╚════██║
+;  ██║ ╚═╝ ██║██║  ██║███████║    ██║  ██║██║        ██║   ╚██████╔╝███████║
+;  ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝    ╚═╝  ╚═╝╚═╝        ╚═╝    ╚═════╝ ╚══════╝
+;                                                                           
+;Obtiene la lista de los individuos mas aptos
 (define mas-aptos-aux
   (lambda (lista-fitness poblacion)
     (cond ((null? lista-fitness) '())
@@ -183,16 +241,25 @@
   (lambda (poblacion lista-z ruta)
     (mas-aptos-aux (fitness poblacion lista-z ruta) poblacion)))
 
+;Retorna un individuo random de una población (mas aptos) para que se cruce
 (define ind-random 
   (lambda (poblacion)
     (list-ref poblacion (random (length poblacion)))))
 
+;Cruza dos individuos random de una población
 (define cruce-random
   (lambda (poblacion)
     (cruce (ind-random poblacion) (ind-random poblacion))))
 
+;  ███████╗██╗   ██╗ ██████╗ ██╗     ██╗   ██╗ ██████╗██╗ ██████╗ ███╗   ██╗
+;  ██╔════╝██║   ██║██╔═══██╗██║     ██║   ██║██╔════╝██║██╔═══██╗████╗  ██║
+;  █████╗  ██║   ██║██║   ██║██║     ██║   ██║██║     ██║██║   ██║██╔██╗ ██║
+;  ██╔══╝  ╚██╗ ██╔╝██║   ██║██║     ██║   ██║██║     ██║██║   ██║██║╚██╗██║
+;  ███████╗ ╚████╔╝ ╚██████╔╝███████╗╚██████╔╝╚██████╗██║╚██████╔╝██║ ╚████║
+;  ╚══════╝  ╚═══╝   ╚═════╝ ╚══════╝ ╚═════╝  ╚═════╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝
+;                                                                           
 
-
+;Proceso de evolución
 (define evolucion
   (lambda (poblacion lista-z ruta)
     (cond ((< (length (mas-aptos poblacion lista-z ruta)) 6) (evolucion (crea-poblacion 40) lista-z ruta))
@@ -206,6 +273,14 @@
           (else
            (cons (cruce-random aptos) (evolucion-aux (+ 1 cont) aptos))))))
 
+;   ██████╗ ███████╗███╗   ██╗███████╗████████╗██╗ ██████╗ █████╗ 
+;  ██╔════╝ ██╔════╝████╗  ██║██╔════╝╚══██╔══╝██║██╔════╝██╔══██╗
+;  ██║  ███╗█████╗  ██╔██╗ ██║█████╗     ██║   ██║██║     ███████║
+;  ██║   ██║██╔══╝  ██║╚██╗██║██╔══╝     ██║   ██║██║     ██╔══██║
+;  ╚██████╔╝███████╗██║ ╚████║███████╗   ██║   ██║╚██████╗██║  ██║
+;   ╚═════╝ ╚══════╝╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝ ╚═════╝╚═╝  ╚═╝
+;                                                                 
+;Función principal del programa
 (define genetica
   (lambda (ruta)
     (evolucion (crea-poblacion cant-ind) (obtener-z ruta) ruta)))
