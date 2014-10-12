@@ -1,6 +1,7 @@
 (load "Archivos.scm")
 (load "Operadores.scm")
 (load "Listas.scm")
+(load "Graficos.scm")
 
 (define prob-hoja 0.85)
 ;Individuos por población
@@ -53,8 +54,8 @@
 
 ;Obtiene los z del individuo
 (define z-individuo
-  (lambda (indiv)
-    (z-individuo-aux indiv (obtener-x-y))))
+  (lambda (indiv ruta)
+    (z-individuo-aux indiv (obtener-x-y ruta))))
 
 (define z-individuo-aux
   (lambda (indiv lista)
@@ -66,7 +67,7 @@
 ;Función que cruza con la raiz de indiv1, hijo derecho de indiv1 e hijo izquierdo de indiv2
 (define cruce
   (lambda (ind1 ind2)
-    (cond ((< (random) 0.7) (mutar 
+    (cond ((< (random) 0.10) (mutar 
                               (list (raiz-random ind1 ind2)
                                     (cadr ind1)
                                     (caddr ind2))))
@@ -119,15 +120,15 @@
     (apply + lista)))
 
 (define fitness-ind
-  (lambda (individuo lista-z)
-    (suma-diferencias (dif-z (z-individuo individuo) lista-z))))
+  (lambda (individuo lista-z ruta)
+    (suma-diferencias (dif-z (z-individuo individuo ruta) lista-z))))
 
 ;Fitness de la población
 (define fitness-pob
-  (lambda (pob lista-z)
+  (lambda (pob lista-z ruta)
     (cond ((null? pob) '())
-          ((= (fitness-ind (car pob) lista-z) 0) (ganador (car pob))(error "lambda encontrado") (list (fitness-ind (car pob) lista-z)))
-          (else (cons (fitness-ind (car pob) lista-z) (fitness-pob (cdr pob) lista-z))))))
+          ((= (fitness-ind (car pob) lista-z ruta) 0) (ganador (car pob))(error "lambda encontrado") (list (fitness-ind (car pob) lista-z ruta)))
+          (else (cons (fitness-ind (car pob) lista-z ruta) (fitness-pob (cdr pob) lista-z ruta))))))
 
 
 ;Mostrar ganador
@@ -157,17 +158,13 @@
     (map (lambda (x) (/ x TF)) TF-lista)))
 
 (define fitness
-  (lambda (pob lista-z)
-    (fitness-aux (fitness-pob pob lista-z))))
+  (lambda (pob lista-z ruta)
+    (fitness-aux (fitness-pob pob lista-z ruta))))
 
 (define fitness-aux
   (lambda (lista)
     (TK-lista (TF (TP lista) lista) (TF-lista (TP lista) lista))))
 
-(define solucionar
-  (lambda (lista-z)
-    (fitness (crea-poblacion 40) lista-z)
-    (solucionar lista-z)))
 
 (define muestra-fitness
   (lambda (lista)
@@ -183,8 +180,8 @@
                  (else (mas-aptos-aux (cdr lista-fitness) (cdr poblacion))))))))
 
 (define mas-aptos
-  (lambda (poblacion lista-z)
-    (mas-aptos-aux (fitness poblacion lista-z) poblacion)))
+  (lambda (poblacion lista-z ruta)
+    (mas-aptos-aux (fitness poblacion lista-z ruta) poblacion)))
 
 (define ind-random 
   (lambda (poblacion)
@@ -197,10 +194,10 @@
 
 
 (define evolucion
-  (lambda (poblacion lista-z)
-    (cond ((< (length (mas-aptos poblacion lista-z)) 6) (evolucion (crea-poblacion 40) lista-z))
+  (lambda (poblacion lista-z ruta)
+    (cond ((< (length (mas-aptos poblacion lista-z ruta)) 6) (evolucion (crea-poblacion 40) lista-z ruta))
           (else
-           (append (mas-aptos poblacion lista-z) (evolucion-aux (length (mas-aptos poblacion lista-z)) (mas-aptos poblacion lista-z)))))))
+           (evolucion (append (mas-aptos poblacion lista-z ruta) (evolucion-aux (length (mas-aptos poblacion lista-z ruta)) (mas-aptos poblacion lista-z ruta))) lista-z ruta)))))
 
 
 (define evolucion-aux
@@ -209,7 +206,7 @@
           (else
            (cons (cruce-random aptos) (evolucion-aux (+ 1 cont) aptos))))))
 
-(define main
-  (lambda ()
-    (evolucion (crea-poblacion cant-ind) (obtener-z))))
+(define genetica
+  (lambda (ruta)
+    (evolucion (crea-poblacion cant-ind) (obtener-z ruta) ruta)))
 
